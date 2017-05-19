@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Orobind Admin Module</title>
+		<link rel="icon" type="image/ico" href="images/favicon.ico">
+		
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="js/html5shiv.min.js"></script>
+			<script src="js/respond.min.js"></script>
+		<![endif]-->
+		<link href="css/dashboard.css" rel="stylesheet">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  </head>
+  <body>
+	<!-- body wrapper -->
+	<div class="wrapper">
+		<!-- left sidebar -->
+		<div class="leftBar">
+			<ul class="sideNav">
+				<!--<li class="sideNavItems"><img class="topLogo" src="images/logo.png"></li>-->
+				<li class="sideNavItems paymentsLink">Payments</li>
+				<li class="sideNavItems reportsLink">Reports</li>
+				<li class="sideNavItems newReportsLink">Business Stats</li>
+				<li class="sideNavItems ordersLink">Orders</li>
+				<li class="sideNavItems dietLink">Diet Plans</li>
+				<li class="sideNavItems groupsLink">Session Group</li>
+				<li class="sideNavItems requestsLink">Reschedules</li>
+				<li class="sideNavItems leadsLink">User Leads</li>
+				<!--<li class="sideNavItems emailsLink">Email / Sms</li>-->
+				<li class="sideNavItems">Logout</li>
+			</ul>
+		</div>
+		<!-- left sidebar ends -->
+		<!-- main area -->
+		<div class="main">
+		<!-- Cards UI Starts -->
+			<!-- top card starts -->
+			<div class="topArea">
+				<div class="leftHuddle">
+					<button class="sideNavToggle"><i class="fa fa-bars"></i></button>
+					<!--<button class="back"><i class="fa fa-arrow-left"></i></button>-->
+					<button class="home"><i class="fa fa-home"></i></button>
+					<h3 class="topTitle">Orobind CRM</h3>
+				</div>
+				<div class="rightHuddle">
+					<div class="searchWidget">
+						<form class="searchForm">
+							<!--<div class="searchTypeWrap">
+								<input type="radio" name="searchType" class="searchType" id="searchUser" checked>
+								<label for="searchUser">User</label>
+								<input type="radio" name="searchType" class="searchType" id="searchCoach">
+								<label for="searchCoach">Coach</label>
+							</div>-->
+							<label id="whatSel"></label>
+							<input type="text" class="searchInput searchText" placeholder="Email">
+							<select class="searchInput SelectResult active">
+								<option selected data-target="Info">Info</option>
+								<option data-type="sessions" data-target="Sessions">Sessions</option>
+								<option data-type="requests" data-target="Requests">Reschedules</option>
+							</select>
+							<!--<select class="searchInput userSelectResult active">
+								<option selected data-target="uInfo">User Info</option>
+								<option data-type="sessions" data-target="uSessions">User Sessions</option>
+								<option data-type="requests" data-target="uRequests">Reschedule Requests</option>
+							</select>
+							<select class="searchInput coachSelectResult">
+								<option selected data-target="cInfo">Coach Info</option>
+								<option data-type="sessions" data-target="cSessions">Coach Sessions</option>
+								<option data-type="requests" data-target="cRequests">Reschedule Requests</option>
+							</select>-->
+							<div class="searchCalendar">
+								<button class="searchCalendarBtn"><i class="fa fa-calendar"></i></button>
+								<div class="searchDateWrap">
+									<div class="dateRangeWrap from">
+										<span class="hint">From</span>
+										<input type="text" class="dateRangeInput" placeholder="DD-MM-YYYY">
+									</div>
+									<div class="dateRangeWrap to">
+										<span class="hint">To</span>
+										<input type="text" class="dateRangeInput" placeholder="DD-MM-YYYY">
+									</div>
+								</div>
+							</div>
+							<div class="sliderWrap">
+								<div class="numberSlider">
+									<input type="range">
+								</div>
+								<input type="text" class="rangeValue">
+							</div>
+							<button class="searchSubmit"><i class="fa fa-search"></i></button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="searchExtend">
+				<form class="searchForm">
+					<div class="typeWrap">
+						<button class="typeToggle"><i class="fa fa-ellipsis-v fa-2x"></i></button>
+						<div class="typeDropDown">
+							<a class="typeLink" data-target="Info">Find Info</a>
+							<a class="typeLink" data-target="Sessions">Find Sessions</a>
+							<a class="typeLink" data-target="Requests">Reschedules</a>
+						</div>
+					</div>
+					<input type="text" class="searchInput searchText" placeholder="Email">
+					<select class="searchInput SelectResult active">
+						<option selected data-target="Info">Info</option>
+						<option data-type="sessions" data-target="Sessions">Sessions</option>
+						<option data-type="requests" data-target="Requests">Reschedules</option>
+					</select>
+					<div class="searchCalendar">
+						<button class="searchCalendarBtn"><i class="fa fa-calendar"></i></button>
+						<div class="searchDateWrap">
+							<div class="dateRangeWrap from">
+								<span class="hint">From</span>
+								<input type="text" class="dateRangeInput" placeholder="DD-MM-YYYY">
+							</div>
+							<div class="dateRangeWrap to">
+								<span class="hint">To</span>
+								<input type="text" class="dateRangeInput" placeholder="DD-MM-YYYY">
+							</div>
+						</div>
+					</div>
+					<div class="sliderWrap">
+						<div class="numberSlider">
+							<input type="range">
+						</div>
+						<input type="text" class="rangeValue">
+					</div>
+					<button class="searchSubmit">Go</button>
+				</form>
+			</div>
+			<!-- top card ends -->
+			
+			<!-- new reports starts -->
+			<div class="card newReports">
+				<div class="cardRow newReportsTop">
+					<h2 class="cardTitle">Business Report</h2>
+					<div class="newReportsWhen">
+						<div class="newReportsWhenSelect">
+							<input class="whenText" value="Last 7 days" type="text">
+							<button class="whenToggle"><i class="fa fa-chevron-down fa-lg"></i></button>
+						</div>
+						<form class="newReportsDatepicker">
+							<input checked="" name="listtype" id="lastten" type="radio">
+							<label for="lastten">Last 7 days</label><br>
+							<hr class="sessionDivider">
+							<input name="listtype" id="bydate" type="radio">
+							<label for="bydate">Between dates</label>
+							<div class="datePickerInput">
+								From <input class="startDate" placeholder="DD-MM-YYYY" type="text"> 
+								To <input class="endDate" placeholder="DD-MM-YYYY" type="text">
+								<button class="datePickerSubmit">Fetch Report</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="cardRow newReportsMain">
+					<table class="reportDataList">
+							<tr>
+								<th>&nbsp;</th>
+								<th>Total inbound leads</th>
+								<th>Total Free Sessions Scheduled</th>
+								<th>Total Free Sessions Executed</th>
+								<th>Total conversions</th>
+								<th>Campaign ROI</th>
+								<th>Campaign Cost</th>
+								<th>DAU</th>
+								<th>MAU</th>
+								<th>Traffic on site <br>(Average)</th>
+								<th>Mobile App downloads</th>
+								<th>User signups</th>
+								<th>Alexa ranking</th>
+								<th>Total diet calls today</th>
+								<th>Lines of chats exchanged <br>till date</th>
+								<th>Lines of chats exchanged <br>per day</th>
+								<th>Clicks per day</th>
+								<th>Cost per click</th>
+								<th>Sessions Scheduled</th>
+								<th>Sessions Executed</th>
+								<th>Session Cancellation %</th>
+								<th>Unplanned session cancellations <br>(due to coach absenteeism + <br>lack of awareness by Orobind)</th>
+								<th>User Rating Provided By</th>
+								<th>Minimum User Rating</th>
+								<th>Total new users added today</th>
+								<th>Total new coaches added today</th>
+								<th>Active Users <br>(users with 1+ sessions) till now</th>
+								<th>Active coaches till now</th>
+								<th>Equipments delivery today <br>(numbers)</th>
+								<th>Mean Absolute Deviation of Start time <br>(mins)</th>
+								<th>Average Session Time (mins)</th>
+								<th>Average Rating by User</th>
+								<th>Cash Inflow Today</th>
+								<th>Session Booking Request today</th>
+								<th>Total Users Called</th>
+								<th>Converted from Session Booking Request</th>
+								<th>Total Session Booking Requests <br>till Date (Starting June)</th>
+								<th>Conversions</th>
+								<th>Total ARPU</th>
+								<th>Grooming Sessions Today</th>
+								<th>Massage Sessions Today</th>
+								<th>Total Sessions Scheduled</th>
+								<th>Total Sessions Executed</th>
+								<th>Average Cancellation Rate</th>
+								<th>Total Cash Inflow</th>
+							</tr>
+							<tr>
+								<td>24th June, 2015</td>
+								<td>1</td>
+								<td>12</td>
+								<td>12</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+							</tr>
+							<tr>
+								<td>24th June, 2015</td>
+								<td>1</td>
+								<td>12</td>
+								<td>12</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+							</tr>
+							<tr>
+								<td>24th June, 2015</td>
+								<td>1</td>
+								<td>12</td>
+								<td>12</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+							</tr>
+							<tr>
+								<td>24th June, 2015</td>
+								<td>1</td>
+								<td>12</td>
+								<td>12</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+							</tr>
+							<tr>
+								<td>24th June, 2015</td>
+								<td>1</td>
+								<td>12</td>
+								<td>12</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+							</tr>
+							<tr>
+								<td>24th June, 2015</td>
+								<td>1</td>
+								<td>12</td>
+								<td>12</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+							</tr>
+							<tr>
+								<td>24th June, 2015</td>
+								<td>1</td>
+								<td>12</td>
+								<td>12</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+							</tr>
+							<tr>
+								<td>24th June, 2015</td>
+								<td>1</td>
+								<td>12</td>
+								<td>12</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+							</tr>
+							<tr>
+								<td>24th June, 2015</td>
+								<td>1</td>
+								<td>12</td>
+								<td>12</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+							</tr>
+							<tr>
+								<td>24th June, 2015</td>
+								<td>1</td>
+								<td>12</td>
+								<td>12</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+								<td>12</td>
+								<td>32</td>
+								<td>1</td>
+								<td>123</td>
+								<td>23</td>
+								<td>23</td>
+								<td>23</td>
+								<td>0</td>
+								<td>2</td>
+								<td>1</td>
+							</tr>
+					</table>
+				</div>
+			</div>
+			<!-- new reports ends -->
+		</div>
+		<!-- main area ends -->
+	</div>
+	<!-- body wrapper ends -->
+
+	<script src="http://cdn.amcharts.com/lib/3/amcharts.js" type="text/javascript"></script>
+	<script src="http://cdn.amcharts.com/lib/3/serial.js" type="text/javascript"></script>
+	<script src="http://cdn.amcharts.com/lib/3/themes/light.js" type="text/javascript"></script>
+	<script src="http://cdn.amcharts.com/lib/3/plugins/export/export.min.js" type="text/javascript"></script>
+	
+	<script src="js/moment.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+	<script src="js/admin.js"></script>
+	<script src="js/json-handler.js"></script>
+	<script src="js/calendar.js"></script>
+	<script src="js/reports.js"></script>
+	<script src="js/datetimepicker.js"></script>
+	<script src="js/session-groups.js"></script>
+	<script src="js/mobile.js"></script>
+	<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false&libraries=places&callback=initialize"></script>
+	<script>
+    $(".reportDataList").each(function() {
+        var $this = $(this);
+        var newrows = [];
+        $this.find("tr").each(function(){
+            var i = 0;
+            $(this).find("td, th").each(function(){
+                i++;
+                if(newrows[i] === undefined) { newrows[i] = $("<tr></tr>"); }
+                newrows[i].append($(this));
+            });
+        });
+        $this.find("tr").remove();
+        $.each(newrows, function(){
+            $this.append(this);
+        });
+    });
+	$(document).on("click",".reportDataList td, .reportDataList th", function(e){
+		$(this).toggleClass("current");
+	});
+	</script>
+  </body>
+</html>

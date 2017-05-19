@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Orobind Admin Module</title>
+		<link rel="icon" type="image/ico" href="images/favicon.ico">
+		
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="js/html5shiv.min.js"></script>
+			<script src="js/respond.min.js"></script>
+		<![endif]-->
+		<link href="css/basics.css" rel="stylesheet">
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  </head>
+  <body>
+	<!-- body wrapper -->
+	<div class="wrapper">
+		<!-- left sidebar -->
+		<div class="leftBar">
+			<ul class="sideNav">
+				<!--<li class="sideNavItems"><img class="topLogo" src="images/logo.png"></li>-->
+				<li class="sideNavItems accessRequestsLink">Access Requests</li>
+				<li class="sideNavItems transactionsLink">Transactions</li>
+				<li class="sideNavItems">Logout</li>
+			</ul>
+		</div>
+		<!-- left sidebar ends -->
+		<!-- main area -->
+		<div class="main">
+		<!-- Cards UI Starts -->
+			<!-- top card starts -->
+			<div class="topArea">
+				<div class="leftHuddle">
+					<button class="sideNavToggle"><i class="fa fa-bars"></i></button>
+					<!--<button class="back"><i class="fa fa-arrow-left"></i></button>-->
+					<button class="home"><i class="fa fa-home"></i></button>
+					<h3 class="topTitle">Orobind Access CRM</h3>
+				</div>
+				<div class="rightHuddle">
+					<button class="switchCRMCta">Pro CRM</i></button>
+				</div>
+			</div>
+			<!-- top card ends -->
+		</div>
+		<!-- main area ends -->
+	</div>
+	<!-- body wrapper ends -->
+	
+	<script src="js/imports/moment.min.js"></script>
+    <script src="js/imports/jquery.min.js"></script>
+    <script src="js/imports/jquery.autocomplete.min.js"></script>
+	<script src="js/imports/datetimepicker.min.js"></script>
+	<script src="js/imports/locationpicker.js"></script>
+	<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false&libraries=places&callback=initialize"></script>
+	<script src="js/main.js"></script>
+	<script src="js/pages.js"></script>
+	<script src="js/utils.js"></script>
+	<script src="js/pages/transactions.js"></script>
+	<script src="js/pages/accessrequests.js"></script>
+  </body>
+</html>

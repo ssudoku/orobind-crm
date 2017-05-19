@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Orobind Admin Module</title>
+		<link rel="icon" type="image/ico" href="images/favicon.ico">
+		
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="js/html5shiv.min.js"></script>
+			<script src="js/respond.min.js"></script>
+		<![endif]-->
+		<link href="css/login.css" rel="stylesheet">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  </head>
+  <body>
+	<div class="signupWrap">
+		<img class="logoStamp" src="http://cdn.orobind.com/srv/static/imagesV2/logo-clock.png">
+		<div class="signupInner">
+			<form id="loginForm" class="signupForm" action="http://54.179.137.126:8081/login_security_check?" onsubmit="handleSubmit(event)" method="POST">
+				<h3>Login to the CRM</h3>
+				<input name="type" value="rdt" type="hidden">
+				<input name="redirect" value="" type="hidden">
+				<input name="j_username" id="userName" class="userName" placeholder="Email or Username" type="text">
+				</input>
+				<input name="j_password" id="passWord" class="passWord" placeholder="••••••••" type="password">
+				<button type="submit" class="btn">Login</button>
+				<a href="/forget/password">Forgot password?</a>
+			</form>
+		</div>
+	</div>
+  <script>
+	function handleSubmit(event){
+		event.preventDefault();
+		event.stopPropagation();
+		if(validate())
+		{
+			return true;
+		}
+		else
+		{
+			event.preventDefault();
+			event.stopPropagation();
+			return false;
+		}
+	}
+	function validate()
+	{
+		var un = document.getElementById("userName");
+		var pw = document.getElementById("passWord");
+		if(un.value == '' || !isNaN(un.value))
+		{
+			un.className = un.className + " error";
+			return false;
+		}
+		else if (pw.value == '')
+		{
+			pw.className = pw.className + " error";
+			return false;
+		}
+		else
+		{
+			un.className = un.className.replace( /(?:^|\s)error(?!\S)/g , '' );
+			pw.className = pw.className.replace( /(?:^|\s)error(?!\S)/g , '' );
+			return true;
+		}
+	}
+  </script>
+  </body>
+</html>

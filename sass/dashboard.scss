@@ -1,0 +1,2662 @@
+@import "definitions";
+@import "popup";
+@import "grid";
+@import "picker";
+@import "charts";
+
+$basepng-arrow:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NTQ3MDQ2NjcwMzA2MTFFNThEMzA5MTc1RUIxMUU0MjciIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NTQ3MDQ2NjgwMzA2MTFFNThEMzA5MTc1RUIxMUU0MjciPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo1NDcwNDY2NTAzMDYxMUU1OEQzMDkxNzVFQjExRTQyNyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo1NDcwNDY2NjAzMDYxMUU1OEQzMDkxNzVFQjExRTQyNyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqRVR3cAAABkSURBVHjaYvz//z8DuYBxVDOZmqWkpASB1DsC6s8+e/bMBMZhgjGAgu+BVBgejRjyGM4GuiANSM3EotEVaMFZgn4GGlAOpDqQhEzQNYIBSDM2LCkpWQ7E/4HYBZeakZhIAAIMAFs4YpxaRm+6AAAAAElFTkSuQmCC';
+
+body {
+	margin-top:0; height:100%; width:100%; background:white;
+}
+.messageModal, .messageModal.small {
+	position:fixed; display:none; background:rgba(black,0.8); width:100%; height:100%; z-index:9999;
+	justify-content:center; align-items:center; top:0; left:0;
+	.messageModalInner {
+		width:320px; background:white; padding:20px; text-align:center;
+		box-sizing:border-box;
+		button {
+			color:white; font-weight:bold; background:$primary-color;
+		}
+		p {
+			font-size:1.125em; margin-bottom:1em; word-break:normal;
+		}
+	}
+	&.wide .messageModalInner {
+		width: 540px;
+	}
+	&.xl .messageModalInner {
+		width: 768px;
+	}
+	&.xxl .messageModalInner {
+		width: 992px;
+	}
+}
+.ctaButtons {
+	background:$primary-color; border-radius:0; font-size:1.125em;
+	color:white; box-sizing:border-box; line-height:1;
+	height:40px; border:0;
+}
+.dataTable {
+	margin-bottom:20px; width:auto; font-size:0.9375em;
+	td, th {
+		border:1px solid darken($light-grey,2%);
+		word-wrap:normal; padding:12px 10px; white-space: nowrap;
+	}
+	tr:hover {
+		td {
+			background:lighten($light-grey,3.5%);
+		}
+	}
+	.positive {
+		color:#33CC55;
+	}
+	.negative {
+		color:$primary-color;
+	}
+	&.sortable {
+		th {
+			&:hover {
+				box-shadow:0px 0px 5px 0px rgba($soft-grey,0.5); position:relative;
+			}
+			&:after {
+				font:normal normal normal 11px/1 'FontAwesome';
+				text-rendering:auto; color:white;
+				-webkit-font-smoothing:antialiased; 
+				-moz-osx-font-smoothing:grayscale;
+				transform:translate(0, 0);
+				content:"\f0dc";
+				margin-left:10px;
+			}
+		}
+	}
+	th {
+		color:white; font-weight:bold; background:#424F5A; cursor:pointer;
+		border-color:transparent; border-bottom-color:darken($light-grey,2%); border-right-color:lighten(#424F5A,5%);
+		&:first-child {
+			border-top-left-radius:3px;
+		}
+		&:last-child {
+			border-top-right-radius:3px;
+			border-right-color:transparent;
+		}
+	}
+	.clickable {
+		text-decoration:underline; cursor:pointer;
+	}
+	.subtext {
+		color:$soft-grey;
+		display:block;
+		&:before {
+			content:''; display:block; width:100%;
+			border-top:1px solid $light-grey; margin:10px 0; padding:0 10px; margin-left:-10px;
+		}
+	}
+	.trend {
+		float:right; font-size:0.875em; font-weight:bold;
+		/*&:before {
+			display:inline-block; margin-right:5px;
+			font-family:fa;
+			font-style:normal;
+			font-weight:normal;
+			line-height:1;
+			-webkit-font-smoothing:antialiased;
+			-moz-osx-font-smoothing:grayscale;
+		}
+		&.down:before {
+			content:"\f063";
+		}
+		&.up:before {
+			content:"\f062";
+		}*/
+		&.positive {
+			color:#33CC55;
+		}
+		&.negative {
+			color:$primary-color;
+		}
+	}
+}
+.reportDataList {
+	@extend .dataTable; margin-top:25px; table-layout:fixed;
+	th {
+		font-weight:normal; font-size:1em;
+		&:first-child, &:last-child {
+			border-radius:0;
+		}
+	}
+	th,td {
+		transition: box-shadow 0.1s ease;
+		&:hover {
+			box-shadow:inset 0 0 0 1px rgba(complement($secondary-color),0.7);
+		}
+		&.current {
+			box-shadow:inset 0 0 0 2px complement($secondary-color);
+			font-weight:bold;
+		}
+	}
+	tbody {
+		tr{
+			th {
+				border-radius:0px;
+				border-color: lighten(#424F5A,5%);
+				width:200px;
+			}
+			&:nth-child(even) {
+				th {
+					background: darken(#424F5A,2%);
+				}
+			}
+			&:first-child {
+				th {
+					border-top-left-radius:5px;
+					background:transparent;
+					border-right:0; border-color:transparent;
+				}
+				td {
+					background:$primary-color; color:white; font-weight:bold;
+					border-right-color:darken($primary-color,4%);
+				}
+			}
+			&:last-child {
+				th {
+					border-bottom-left-radius:5px;
+				}
+			}
+		}
+	}
+}
+.newReportsMain {
+	width:100%; overflow-x:auto; overflow-y:hidden;
+}
+.newReportsTop {
+	.newReportsWhen {
+		position:relative; margin-left:25px;
+		.newReportsWhenSelect {
+			font-size:1.25em; overflow:hidden;
+			border:0; border-radius:5px; box-shadow:0 0 3px 0 rgba($soft-grey,0.3);
+			&:after {
+				content:''; display:table; clear:both; zoom:1;
+			}
+			.whenText, .whenToggle {
+				float:left; display:block; border-radius:0; color:$hard-grey;
+				box-sizing:border-box; height:40px; line-height:1.5;
+			}
+			.whenText {
+				border:0; padding:12px; width:215px;
+			}
+			.whenToggle {
+				padding:11px; width:40px; background:$soft-grey; color:white;
+				i {
+					vertical-align:top;
+				}
+			}
+		}
+		.newReportsDatepicker {
+			position:absolute;right:0; top:40px; width:100%; box-sizing:border-box;
+			background:white; border:1px solid $light-grey; padding:20px; display: none;
+			box-shadow:0px 7px 5px 0px rgba($soft-grey,0.3); z-index:11; border-radius:5px;
+			input[type="radio"] {
+				padding:5px 0px; border-bottom:1px solid $light-grey;
+			}
+			.newReportsDivider {
+				border-width:0 0 1px 0;
+				border-color:$light-grey; border-style:solid;
+			}
+			.datePickerInput {
+				margin-top:10px;
+				input {
+					display:block; width:100%; box-sizing:border-box;
+					&.error {
+						border:2px solid $primary-color;
+					}
+				}
+				.inputRangeWrap {
+					position:relative; border:1px solid $light-grey;  padding:10px; margin-top:15px;
+					display:flex; flex-direction:row; justify-content:space-between; align-items:flex-end;
+					.rangeHint {
+						position:absolute; display:block; width:100%; text-align:left;
+						left:27px; top:5px; color:$soft-grey;
+					}
+					.inputRangeSlider {
+						width:70%; display:initial; border:0; padding:0; margin:0;
+					}
+					.inputRangeValue {
+						width:40px; display:initial; padding:0; margin:0; height:40px;
+						box-sizing:border-box; padding:5px;
+					}
+				}
+			}
+			.datePickerSubmit {
+				background:$primary-color; color:white; border-radius:0;
+				margin-top:15px;
+			}
+		}
+	}
+}
+.uiLink {
+	color:darken(complement($secondary-color),10%);
+}
+.calView {
+	display:inline-block; text-align:center; margin-left:10px; float:right;
+	box-shadow:0 0 2px 0 rgba($soft-grey,0.5);
+	.month, .date {
+		display:block; line-height:1;
+	}
+	.month {
+		color:white; background:$soft-grey; font-size:0.5em; padding:2px; text-transform:uppercase;
+	}
+	.date {
+		font-weight:bold; padding:2px;
+	}
+}
+.timeString {
+	float:left;
+}
+a {
+	outline:0;
+}
+.topBar {
+	padding:10px 20px; position:relative; background:$primary-color; color:white;
+	.topTitle {
+		position:absolute; right:20px; top:10px;
+	}
+}
+.wrapper {
+	display:flex; flex-direction: row;
+	align-items: stretch; justify-content: space-between;
+}
+.clickable {
+	color:#2AA2B7;
+}
+.cal {
+	display:inline-block; background:white; margin-bottom:20px;
+	caption {
+		display:flex; width:100%; padding:5px 8px;
+		background:$primary-color; color:white; box-sizing:border-box;
+		flex-direction:row; justify-content:space-between;
+		align-items:center;
+		.calTitle {
+			margin-bottom:0;
+		}
+		.prev, .next{
+			cursor:pointer;
+		}
+	}
+	td,th {
+		border:1px solid $light-grey; text-align:center;
+		padding:5px 8px;
+		&.active {
+			position:relative;
+			&:before {
+				content:'';
+				position:absolute; width:100%; height:100%;
+				left:0; top:0; box-sizing:border-box;
+				border:2px solid #13dcbb;
+			}
+		}
+		&.selected, &.selected-alt {
+			transition:box-shadow 0.5s ease;
+			box-shadow:inset 0 0 0 75px rgba(#13dcbb,0.35);
+		}
+		&.restricted {
+			background:url(http://cdn.orobind.com/srv/static/imagesV2/bg-stripe.png); font-weight:bold;
+			box-shadow: inset 0px 0px 0px 100px rgba(white,0.5);
+			&.done {
+				background:url(http://cdn.orobind.com/srv/static/imagesV2/green-stripe.png);
+			}
+		}
+		&:hover {
+			box-shadow:inset 0 0 0 75px rgba(#13dcbb,0.15);
+		}
+		&.off {
+			background:$light-grey; color:lighten($soft-grey,10%);
+		}
+	}
+	td {
+		cursor:pointer;
+	}
+	th {
+		color:$dark-grey;
+		font-weight:bold;
+	}
+}
+@media screen and (min-width:840px) {
+	.cal {
+		caption {
+			padding:10px 20px;
+		}
+		td,th {
+			padding:15px 20px;
+			&.restricted {
+				box-shadow:none;
+			}
+		}
+	}
+}
+.leftBar {
+	position:relative; background:#424F5A; color:white; margin-left:-100%; transition:0.5s all ease; flex-shrink:0;
+	&.active {
+		margin-left:0;
+	}
+	&:after {
+		content:''; display:block; width:100%; height:200px;
+		position:absolute; left:0; bottom:-200px; background:#424F5A;
+	}
+	.sideNav {
+		.sideNavItems {
+			font-size:1.25em; padding:20px; box-sizing:border-box;
+			border-bottom:1px solid darken(#424F5A,5%);
+			cursor:pointer;
+			&:hover {
+				background:darken(#424F5A,5%);
+			}
+			&:last-child {
+				border-bottom:0;
+			}
+		}
+	}
+}
+auto {	
+	position:absolute; background:white; border:1px solid $light-grey; z-index:12;
+	box-sizing:border-box; box-shadow:0px 0px 5px 0px rgba($soft-grey,0.3);
+	color:$hard-grey; padding:20px; display:none;
+	.loading {
+		display:flex; flex-direction:row; justify-content:space-between; align-items:center;
+		font-weight:bold; margin-bottom:20px; padding-bottom:7px; border-bottom:1px solid $light-grey;
+	}
+	.resultItem {
+		margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid $light-grey;
+		cursor:pointer;
+		&.highlighted, &:hover {
+			span.resultName {
+				color:$secondary-color;
+			}
+		}
+		&:last-child {
+			border:0;
+		}
+	}
+	span.type {
+		color:darken($light-grey,5%);
+	}
+	span.resultName {
+		font-weight:bold;
+	}
+	span.resultPhone {
+		color:$soft-grey;
+	}
+	.errorMessage {
+		display:none;
+	}
+}
+numberSlider {
+	flex-direction:row; border:1px solid lighten($soft-grey,15%); background:white;
+	justify-content: center; align-items:center; margin-right:15px;
+	display:none;
+	&.active {
+		display:flex;
+	}
+	.numberSlider {
+		padding:11px 12px; position:relative; margin:0;
+		display:flex; flex-direction:row; align-items:center; justify-content:center;
+		input {
+			padding:0; border:0; width:80px; margin:0;
+		}
+		span {
+			position:absolute; display:block; width:100%;
+			top:0; text-align:center; left:0;
+			color:white; font-size:1em; line-height:2em;
+			font-family:$body-font;
+		}
+	}
+	.rangeValue {
+		padding:0; font-size:1.125em; line-height:1.5; background:transparent;
+		border:0; margin:0; width:40px;
+	}
+}
+searchCal {
+	display:none; position:relative; margin-right:15px;
+	&.active {
+		display:initial;
+	}
+	.searchDateWrap {
+		position:absolute; width:200px; background:white; left:-80px; top:100%;
+		box-shadow:0 3px 5px rgba($soft-grey,0.5); display:none; padding:15px;
+		.dateRangeWrap {
+			background:white; border:1px solid lighten($soft-grey,15%); position:relative;
+			padding:9px 12px 10px 12px; box-sizing:border-box;
+			&:first-child {
+				margin-bottom:15px;
+			}
+			&.error {
+				border:2px solid $primary-color;
+			}
+			.dateRangeInput {
+				border:0; box-sizing:border-box; padding:0; width:120px;
+			}
+			.hint {
+				color:lighten($soft-grey,10%); position:absolute; top:10px; right:10px;
+			}
+			&.active {
+				display:initial;
+			}
+		}
+	}
+}
+searchType {
+	justify-content:flex-start; margin-right:15px; align-items:center;
+	.searchType {
+		display:none;
+	}
+	label {
+		font-size:1em; margin-right:15px; color:white; min-height:1px; position:relative; margin-left:30px;
+		&:before {
+			content:'';
+			position:absolute; left:-25px; top:0px;
+			width:20px; height:20px;
+			background:url("http://cdn.orobind.com/srv/static/imagesV2/radio2.png");
+			background-position:20px 0px;
+		}
+	}
+	.searchType:checked + label{
+		&:before {
+			background-position:0px 0px;
+		}
+	}
+}
+.searchExtend {
+	padding:20px; box-sizing:border-box; background:$hard-grey; text-align:center; display:none;
+	color:white; box-shadow:0 0 3px 1px rgba($soft-grey,0.5); margin:-20px -20px 20px -20px;
+	font-size:0.875em;
+	.searchForm, .searchMain, .searchTypeWrap {
+		display:flex; flex-direction:row;
+	}
+	.searchForm {
+		align-items:center; justify-content:center; margin-left:15px; position:relative;
+		.searchTitle {
+			margin-right:15px;
+		}
+	}
+	.searchInput {
+		color:$soft-grey; padding:12px;  font-size:1em; line-height:1.5;
+		box-sizing:border-box; height:40px; margin-right:15px;
+		&.error {
+			border:2px solid $hard-grey;
+		}
+	}
+	#whatSel {
+		margin-right:10px;
+	}
+	select.searchInput {
+		border:1px solid $light-grey; position:relative; padding:8px; padding-right:25px; background-image:url($basepng-arrow);
+		background-repeat:no-repeat; background-position:95% center; display:none;
+	}
+	.userSelectResult, .coachSelectResult {
+		&.active {
+			display:initial;
+		}
+	}
+	.suggestions {
+		@extend auto;
+	}
+	.searchTypeWrap {
+		@extend searchType;
+	}
+	.sliderWrap {
+		@extend numberSlider;
+	}
+	.searchCalendar{
+		@extend searchCal;
+	}
+	button {
+		@extend .ctaButtons;
+		&.searchCalendarBtn {
+			background:white; color:$primary-color; border:1px solid lighten($soft-grey,15%);
+		}
+	}
+	.typeWrap {
+		margin-right:10px; position:relative;
+		.typeToggle {
+			background:transparent; padding:0;
+		}
+		.typeDropDown {
+			position:absolute; left:3px; top:27px; color:white; width:115px;
+			padding:0 10px; background:darken($hard-grey,5%); font-weight:bold;
+			box-shadow:0 0 3px 0 rgba(black,0.5); display:none; z-index:11;
+			.typeLink {
+				color:inherit; text-decoration:none; padding:10px 0; display:block;
+				border-bottom: 1px solid darken($hard-grey,10%);
+				&:hover {
+					cursor:pointer;
+				}
+				&:last-child {
+					border-bottom:0;
+				}
+			}
+		}
+	}
+}
+.topArea {
+	padding:20px 20px 0px 20px; box-sizing:border-box; color:$hard-grey; margin:-20px -20px 20px -20px; background:#FBFDFD;
+	display:flex; flex-direction:row; justify-content:space-between; align-items:center; box-shadow:0 0 2px 0 rgba(200,200,200,0.3);
+	button i {
+		font-size:1.25em;
+	}
+	.sideNavToggle, .home, .back {
+		background:transparent; padding:0; border:0; margin-right:15px; color:$primary-color;
+	}
+	.leftHuddle, .rightHuddle {
+		display:flex; flex-direction:row; align-items:center;
+	}
+	.topTitle {
+		margin-bottom:0; font-size:1.25em; font-weight:normal;
+	}
+	.rightHuddle {
+		.searchWidget {
+			font-size:0.875em;
+			.suggestions {
+				@extend auto;
+			}
+			.searchForm, .searchMain, .searchTypeWrap {
+				display:flex; flex-direction:row;
+			}
+			.searchForm {
+				align-items:center; justify-content:flex-start; margin-left:15px;
+				.searchTitle {
+					margin-right:15px;
+				}
+			}
+			.searchTypeWrap {
+				@extend searchType;
+			}
+			.searchInput {
+				color:$soft-grey; padding:12px;  font-size:1em; line-height:1.5; border-radius:5px; box-shadow:0 0 3px 0 rgba($soft-grey,0.3);
+				box-sizing:border-box; height:40px; margin-right:15px; display:none; border:0;
+				&.error {
+					border:2px solid $hard-grey;
+				}
+			}
+			#whatSel {
+				margin-right:10px;
+			}
+			select.searchInput {
+				appearance:none; -webkit-appearance:none; -moz-appearance:none;
+				position:relative; padding:8px; padding-right:25px;
+				background-image: url($basepng-arrow);
+				background-repeat:no-repeat; background-position:95% center;
+			}
+			.userSelectResult, .coachSelectResult {
+				&.active {
+					display:initial;
+				}
+			}
+			.sliderWrap {
+				@extend numberSlider;
+				border-radius:5px; border:0; box-shadow:0 0 3px 0 rgba($soft-grey,0.3);
+			}
+			.searchCalendar{
+				@extend searchCal;
+				.searchDateWrap {
+					border-radius:5px; border:0;
+					.dateRangeWrap {
+						border-radius:5px; border:0; box-shadow:0 0 3px 0 rgba($soft-grey,0.3);
+					}
+				}
+			}
+			button {
+				@extend .ctaButtons; border-radius:5px; border:0; box-shadow:0 0 3px 0 rgba($soft-grey,0.3);
+				&.searchCalendarBtn {
+					background:white; color:$primary-color;
+					i {
+						font-size:0.9375em;
+					}
+				}
+			}
+		}
+	}
+}
+@media screen and (min-width:840px){
+	.topArea {
+		padding:20px;
+		button i {
+			font-size:1.75em;
+		}
+		.searchSubmit i {
+			font-size: 1em;
+		}
+		.topTitle {
+			font-size:1.5em; font-weight:bold;
+		}
+		.rightHuddle {
+			.searchWidget {
+				.searchInput {
+					display:initial;
+				}
+			}
+		}
+	}
+}
+.main {
+	width:100%; max-width:100%; box-sizing:border-box; background:#F7F9F9;
+}
+.leads {
+	background:#FFF; box-shadow: 0px 0px 3px 0px rgba($soft-grey, 0.3); width:100%; overflow-x:auto;
+	box-sizing:border-box; border-radius:5px; padding:20px; overflow-y:hidden;
+	.userStatusChangeModal {
+		.inner {
+			width:360px; padding:15px;
+		}
+		.statusChangeForm {
+			input, .statusChangeCta , textarea {
+				display:block; margin-bottom:15px; width:100%; box-sizing:border-box;
+				border:0; border-radius:3px; box-shadow:0 0 5px 0 rgba($soft-grey,0.3);
+				font-size:1.125em;
+				&:last-child {
+					margin-bottom:0;
+				}
+				&.error {
+					border:2px solid $primary-color;
+				}
+			}
+			input[type="radio"], input[type="checkbox"] {
+				display:inline-block; margin-right:10px; width:auto; height:auto;
+			}
+			label {
+				margin-right:20px;
+				&:last-of-type {
+					margin-right:0;
+				}
+			}
+			input, .statusChangeCta {
+				height:40px;
+			}
+			.statusChangeCta {
+				color:white; background: $secondary-color; font-weight:bold;
+				i {
+					margin-left:10px;
+				}
+			}
+			textarea {
+				font-family:$body-font; padding:8px;
+			}
+			.subRow, .altPrices > p {
+				font-size:0.875em; padding-left:15px; color:$soft-grey; display:none; margin-bottom:10px;
+				input[type="radio"] {
+					margin:0 15px 0 0;
+				}
+				&.cityRow {
+					width:110px;
+				}
+			}
+			.inputRow {
+				padding:12px 0; border-bottom:1px dotted $light-grey;
+				input[type="checkbox"] {
+					margin:0 15px 0 0;
+				}
+				> i {
+					color: complement($secondary-color); cursor:pointer; display:none;
+				}
+				&.active {
+					.subRow, &.altPrices > p {
+						display:block;
+					}
+					.cityRow {
+						display:inline-block;
+					}
+				}
+				&.loaded {
+					> i {
+						display:inline-block;
+					}
+				}
+				&.error {
+					background:lighten($primary-color,40%);
+					border:2px solid lighten($primary-color,35%);
+				}
+			}
+			.altServices {
+				margin-bottom:20px;
+			}
+		}
+		.sendSMS {
+			padding-left:15px; margin-bottom:10px;
+			&.disabled {
+				opacity:0.2;
+			}
+		}
+		.dropped {
+		}
+	}
+	.userCommentModal, .userStatusModal, .userHistoryModal {
+		.userStatusInner, .userCommentInner, .userHistoryInner {
+			background:#F5F5F5;
+			&.userHistoryInner {
+				background:#F9F7F7;
+				.notesWrap {
+					text-align:right;
+					.note {
+						background:white; box-shadow:0 0 5px 0 rgba($soft-grey,0.3);
+						margin-bottom:15px; padding:10px; box-sizing:border-box; border-radius:5px;
+						.noteText {
+							text-align:left;
+							&:before {
+								content:'\f10d';
+								font-family:'FontAwesome';
+								display:inline-block; 
+								margin-right:20px;
+								color:$soft-grey;
+							}
+						}
+						.commentBody {
+							text-align:left;
+						}
+						.commentSpecial {
+							color:$secondary-color;
+						}
+						.noteTime {
+							margin-right:20px; color:lighten($soft-grey,10%);
+						}
+						.noteBy {
+							font-weight:bold;
+						}
+					}
+				}
+			}
+			.userStatusTitle, .userCommentTitle {
+				line-height:1;
+			}
+			p {
+				margin-bottom:15px;
+				span.label {
+					font-weight:bold; width:70px; display:inline-block;
+				}
+			}
+			.userStatusForm, .userCommentForm {
+				text-align:left;
+				label {
+					display:inline-block; text-align:left; padding-left:30px; vertical-align:top; 
+					line-height:1; width:100%; font-weight:bold; cursor:pointer;
+					&:before {
+						content:''; display:inline-block; width:20px; height:20px; vertical-align:top;
+						background:url(http://cdn.orobind.com/srv/static/imagesV2/radio2.png); background-position:20px 0%; margin-right:7px;
+					}
+				}
+				input[type="radio"] {
+					display:none;
+				}
+				input:checked + label {
+					&:before {
+						background-position:0% 0%;
+					}
+				}
+				textarea {
+					width:100%; box-sizing:border-box; padding:10px; border-radius:5px; border:0;
+					font-family:$body-font; font-size:1em; margin-bottom:15px; box-shadow:0 0 5px 0 rgba($soft-grey,0.3);
+				}
+				.userStatusCommentName {
+					width:100%; box-sizing:border-box; padding:10px 12px; margin-bottom:15px;
+				}
+				.userStatusCta, .userCommentCta {
+					width:100%; color:white; font-weight:bold; font-size:1.125em;
+					padding:12px; background:$primary-color; border-radius:5px;
+					box-shadow:0 0 5px 0 rgba($soft-grey,0.3); border:0;
+				}
+			}
+		}
+	}
+	.leadsTop {
+		display:flex; flex-direction:row; justify-content:space-between; align-items:center; margin-bottom:20px;
+		.cardTitle {
+			margin-bottom:0;
+		}
+		.leftHuddle {
+			display:flex; flex-direction:row; justify-content:flex-start; align-items:center;
+			.campaignChoice {
+				height:40px; box-sizing:border-box; border:0; border-radius:5px;
+				appearance:none; -moz-appearance:none; -webkit-appearance:none; margin-left:15px;
+				padding:10px 8px; padding-right:25px; background-image:url($basepng-arrow);
+				background-repeat:no-repeat; background-position:95% center;
+				box-shadow:0 0 5px 0 rgba($soft-grey,0.3);
+			}
+		}
+		.searchLeads {
+			display:flex; flex-direction:row; justify-content:flex-start; align-items:center;
+			.searchLeadsOptions {
+				& > * {
+					vertical-align:top; margin-left:15px; margin-right:0;
+					height:40px; box-sizing:border-box; border:0;
+					box-shadow:0 0 3px 0 rgba($soft-grey,0.5); border-radius:5px;
+				}
+			}
+			input[type="text"] {
+				width:120px;
+				&.searchLeadsCountValue {
+					width:50px;
+				}
+				&.error {
+					border:2px solid $primary-color;
+				}
+			}
+			.searchLeadsType {
+				padding:10px 8px; padding-right:25px; background-image:url($basepng-arrow);
+				appearance:none; -moz-appearance:none; -webkit-appearance:none;
+				background-repeat:no-repeat; background-position:95% center;
+			}
+			.searchLeadsCta {
+				border-radius:5px; background:$secondary-color; color:white;
+			}
+		}
+	}
+	.addUserGroupModal {
+		.addUserGroupModalInner {
+			max-height:90%; text-align:center;
+			.titleUserName {
+				color:$primary-color;
+			}
+			.layout {
+				display:flex; flex-direction:row; justify-content:space-between; align-items:flex-start;
+				.mapsCol{
+					flex-grow:2; margin-right:20px; position:relative;
+					.mapInput {
+						height:40px; padding:12px; box-sizing:border-box;
+						&.address {
+							width:350px; box-shadow:0 0 5px 0 rgba($soft-grey,0.4);
+						}
+						&.radius {
+							width:50px;
+						}
+					}
+					.mapWrap {
+						height:350px; border-radius:5px; margin-bottom:25px;
+						box-shadow:0 0 5px 0 rgba($soft-grey,0.4);
+					}
+					.addressWrap {
+						position:absolute; left:40px; top:22px; z-index:9999;
+					}
+					.radiusWrap {
+						position:absolute; right:20px; top:70%; z-index:9999;
+						background:rgba(white,0.4); box-shadow:0 0 5px 0 rgba($soft-grey,0.4);
+						padding:1px; padding-left: 10px;
+					}
+					.co-ords {
+						display:flex; flex-direction:row; justify-content:flex-start; align-items:center;
+						input {
+							flex-grow:1; margin-left:15px; height:40px; padding:12px;
+							box-sizing:border-box;
+							&.latitude {
+								margin-right:25px;
+							}
+						}
+					}
+				}
+				.dataCol{
+					flex-grow:1;
+					.formRow {
+						display:block; margin-bottom:15px; width:100%; background:#f7f7f7;
+						padding:8px 12px; box-sizing:border-box; text-align:left; flex-grow:0;
+					}
+					.label {
+						display:inline-block; width:130px; text-align:left; font-weight:bold;
+					}
+					select,input[type="text"]{
+						height:40px; box-sizing:border-box; padding:12px
+					}
+					.fetchCoach, .createCta, .updateCta {
+						background:$hard-grey; color:white; padding:12px; font-weight:bold;
+						&.createCta, &.updateCta {
+							background:$primary-color; font-size:1.125em;
+						}
+						&.createCta {
+							margin-bottom:20px;
+						}
+					}
+					.fetchedCoachResult {
+						display:inline-block;
+						.resultItem {
+							background:white; padding:5px; border:1px solid $light-grey; display:none;
+							.coachName {
+								font-weight:bold; color:complement($secondary-color);
+								&:after {
+									content:'-'; margin-right:6px;
+									display:inline-block;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.leadsList {
+		@extend .dataTable; margin-bottom:20px; width:100%;
+		td, th {
+			text-align:center; vertical-align:middle;
+			&:first-child {
+				text-align:left;
+			}
+			div.inner {
+				width:100%; overflow:hidden; position:relative;
+				/*> i {
+					position:absolute; right:0px; top:4px;
+				}*/
+				/*&:after {
+					font:normal normal normal 11px/1 'FontAwesome';
+					text-rendering:auto; color:$primary-color;
+					-webkit-font-smoothing:antialiased; 
+					-moz-osx-font-smoothing:grayscale;
+					transform:translate(0, 0);
+					content:"\f0dc";
+					margin-left:10px;
+				}*/
+			}
+			a.toggle {
+				margin-right:10px; color:inherit; text-decoration:none;
+			}
+			.leadUserLink {
+				float:left;
+			}
+			.callbackIndicator {
+				float:right; font-weight:bold;
+				.time {
+					color:$secondary-color;
+				}
+			}
+			&.collapsed {
+				width:38px; color:darken($soft-grey,10%);
+				a.toggle {
+					margin-right:20px;
+				}
+				div.inner {
+					width:13px;
+					&:after {
+						content:'';
+					}
+				}
+			}
+		}
+		.leadsUserCta {
+			background:$primary-color; color:white; font-weight:bold;
+			border-radius:0;
+		}
+		.leadsCommentCta {
+			background:$soft-grey; color:white;
+			border-radius:5px;
+			.fa-plus {
+				font-size:0.875em;
+			}
+		}
+		.userStatusSelect {
+			padding:10px 8px; padding-right:25px; background-image:url($basepng-arrow);
+			background-repeat:no-repeat; background-position:95% center; width:150px; margin:auto;
+			border-radius:5px; box-shadow:0 0 5px 0 rgba($soft-grey,0.3); box-sizing:border-box;
+			&:hover {
+				cursor:pointer; box-shadow:0 0 5px 0 rgba($soft-grey,0.5);
+			}
+		}
+	}
+	.clickable {
+		text-decoration:underline;
+	}
+	.userStatusDropDown {
+		position:absolute; left:0; top:0; z-index:10; width:180px; padding:20px; border:0;
+		box-sizing:border-box; background:white; box-shadow:0 0 5px 0 rgba($soft-grey,0.3);
+		border-radius:5px; display:none; text-align:center;
+		.statusDropDownMenu {
+			padding:0; margin:0; border:0;
+			li {
+				padding:10px 0; border-bottom:1px solid $light-grey; cursor:pointer;
+				i {
+					font-size:0.875em; display:none; color:$soft-grey;
+				}
+				&:hover {
+					color:$primary-color;
+				}
+				&:first-child {
+					padding-top:0;
+				}
+				&:last-child {
+					padding-bottom:0; border-bottom:0;
+				}
+				&.active {
+					font-weight:bold; color:$dark-grey;
+					i {
+						display:inline-block;
+					}
+				}
+			}
+		}
+	}
+}
+.card.summary {
+	min-height:0;
+	.summTab {
+		width:100%; display: flex; display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+		tbody {
+			width:100%; display: flex; display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+		}
+		tr, td, th {
+			display:block;
+		}
+		td {
+			text-align:right; padding:15px 0; border:0;
+		}
+		th {
+			color: $dark-grey; border:0; padding:15px 0; text-align:left; background:transparent;
+			&:after {
+				content:'';
+			}
+			&:hover {
+				box-shadow:none; cursor:initial; position:initial;
+			}
+		}
+	}
+}
+@media screen and (min-width:840px) {
+	.card.summary {
+		.summTab {
+			display:table; width:100%;
+			tbody {
+				display:table-row-group;
+			}
+			tr {
+				display:table-row;
+			}
+			td, th {
+				display:table-cell; padding:12px 10px;
+			}
+			td {
+				text-align:left; border:1px solid darken($light-grey,2%);
+			}
+			th {
+				background:$primary-color; color:white;
+				border-right:1px solid lighten($primary-color,5%);
+				&:first-child {
+					border-top-left-radius:3px;
+				}
+				&:last-child {
+					border-top-right-radius:3px;
+					border-right:0;
+				}
+			}
+		}
+	}
+}
+.sessionsTop {
+	justify-content: start;
+	align-items:center;
+	.sessionsWhen {
+		position:relative; margin-left:25px; display:none;
+		.sessionsWhenSelect {
+			font-size:1.25em; overflow:hidden;
+			border:0; border-radius:5px; box-shadow:0 0 3px 0 rgba($soft-grey,0.3);
+			&:after {
+				content:''; display:table; clear:both; zoom:1;
+			}
+			.whenText, .whenToggle {
+				float:left; display:block; border-radius:0; color:$hard-grey;
+				box-sizing:border-box; height:40px; line-height:1.5;
+			}
+			.whenText {
+				border:0; padding:12px; width:215px;
+			}
+			.whenToggle {
+				padding:11px; width:40px; background:$soft-grey; color:white;
+				i {
+					vertical-align:top;
+				}
+			}
+		}
+		.sessionDatepicker {
+			position:absolute;right:0; top:40px; width:100%; box-sizing:border-box;
+			background:white; border:1px solid $light-grey; padding:20px; display: none;
+			box-shadow:0px 7px 5px 0px rgba($soft-grey,0.3); z-index:11; border-radius:5px;
+			input[type="radio"] {
+				padding:5px 0px; border-bottom:1px solid $light-grey;
+			}
+			.sessionDivider {
+				border-width:0 0 1px 0;
+				border-color:$light-grey; border-style:solid;
+			}
+			.datePickerInput {
+				margin-top:10px;
+				input {
+					display:block; width:100%; box-sizing:border-box;
+					&.error {
+						border:2px solid $primary-color;
+					}
+				}
+				.inputRangeWrap {
+					position:relative; border:1px solid $light-grey;  padding:10px; margin-top:15px;
+					display:flex; flex-direction:row; justify-content:space-between; align-items:flex-end;
+					.rangeHint {
+						position:absolute; display:block; width:100%; text-align:left;
+						left:27px; top:5px; color:$soft-grey;
+					}
+					.inputRangeSlider {
+						width:70%; display:initial; border:0; padding:0; margin:0;
+					}
+					.inputRangeValue {
+						width:40px; display:initial; padding:0; margin:0; height:40px;
+						box-sizing:border-box; padding:5px;
+					}
+				}
+			}
+			.datePickerSubmit {
+				background:$primary-color; color:white; border-radius:0;
+				margin-top:15px;
+			}
+		}
+	}
+}
+@media screen and (min-width:840px)
+{
+	.sessionsTop {
+		.sessionsWhen {
+			display:initial;
+		}
+	}
+}
+.cardRow.sessionsMain {
+	width:100%; overflow-x:auto; overflow-y:hidden; flex-direction:column;
+	.checkInMapModal {
+		.inner {
+			background:transparent; padding-top:50px;
+		}
+		.close {
+			color:white; font-weight:bold;
+		}
+		.checkInMapCanvas {
+			min-height:400px;
+			border:5px solid white;
+		}
+	}
+	.sessionsList {
+		@extend .dataTable;
+		.userComment, .coachComment {
+			width:200px; white-space:normal;
+		}
+		.listStartTime .timeWrap {
+			overflow:hidden; display:inline-block;
+		}
+		.listUserName, .listCoachName
+		{
+			a.clickable {
+				white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:14ex; display:inline-block;
+			}
+		}
+	}
+}
+@media screen and (min-width:840px)
+{
+	.sessionsMain {
+		.sessionsList {
+			.listUserName, .listCoachName
+			{
+				a.clickable {
+					width:18ex;
+				}
+			}
+		}
+	}
+}
+.sessGroups {
+	.sessGroupsTop {
+		justify-content: space-between; align-items:center;
+		form.searchEmail {
+			input,button {
+				box-sizing:border-box; height:40px; margin-left:15px; font-size:1.125em; padding:12px;
+				&.searchEmailSubmit {
+					margin-left:0; background:$hard-grey; color:white;
+				}
+				&.addUserCta {
+					background:$primary-color; color:white;
+				}
+			}
+		}
+	}
+	.sessGroupsPagination {
+		justify-content: space-between; align-items:center; margin-top:40px;
+		.rightHuddle, .leftHuddle {
+			display:flex; flex-direction:row; justify-content: flex-start; align-items:center;
+			.which, .totalCount {
+				font-size:1.25em; font-weight:bold; color:complement($secondary-color);
+				margin:0 8px;
+				.totalCount {
+					margin-right:0;
+				}
+			}
+			.status, .numberNav, .paginationInput, .resultLabel, .pageResultCount, .pageNavCta, .pageCountCta {
+				margin-left:15px;
+			}
+			.resultLabel {
+				margin-left:55px;
+			}
+			.numberNavLink {
+				margin:0 5px; font-weight:bold; color:complement($secondary-color); font-size:1.25em;
+			} 
+			.paginationInput {
+				width: 55px; font-size: 1em; height: 40px; box-sizing: border-box;
+			}
+			.pageResultCount {
+				width: 45px; font-size: 1em; height: 40px; box-sizing: border-box;
+			}
+			.pageNavCta, .pageCountCta {
+				background:$hard-grey; border-radius:0; color:white; height: 40px;
+			}
+		}
+	}
+	.sessGroupsMain {
+		.userOnboardingModal {
+			.userOnboardingModalInner {
+				max-height:90%; text-align:center;
+				.titleUserName {
+					color:$primary-color;
+				}
+				.layout {
+					display:flex; flex-direction:row; justify-content:space-between; align-items:flex-start;
+					.mapsCol{
+						flex-grow:2; margin-right:20px; position:relative;
+						.mapInput {
+							height:40px; padding:12px; box-sizing:border-box;
+							&.address {
+								width:350px; box-shadow:0 0 5px 0 rgba($soft-grey,0.4);
+							}
+							&.radius {
+								width:50px;
+							}
+						}
+						.mapWrap {
+							height:350px; border-radius:5px; margin-bottom:25px;
+							box-shadow:0 0 5px 0 rgba($soft-grey,0.4);
+						}
+						.addressWrap {
+							position:absolute; left:40px; top:22px; z-index:9999;
+						}
+						.radiusWrap {
+							position:absolute; right:20px; top:70%; z-index:9999;
+							background:rgba(white,0.4); box-shadow:0 0 5px 0 rgba($soft-grey,0.4);
+							padding:1px; padding-left: 10px;
+						}
+						.co-ords {
+							display:flex; flex-direction:row; justify-content:flex-start; align-items:center;
+							input {
+								flex-grow:1; margin-left:15px; height:40px; padding:12px;
+								box-sizing:border-box;
+								&.latitude {
+									margin-right:25px;
+								}
+							}
+						}
+					}
+					.dataCol{
+						flex-grow:1;
+						.formRow {
+							display:block; margin-bottom:15px; width:100%; background:#f7f7f7;
+							padding:8px 12px; box-sizing:border-box; text-align:left; flex-grow:0;
+						}
+						.label {
+							display:inline-block; width:130px; text-align:left; font-weight:bold;
+						}
+						select,input[type="text"]{
+							height:40px; box-sizing:border-box; padding:12px
+						}
+						.fetchCoach, .createCta, .updateCta {
+							background:$hard-grey; color:white; padding:12px; font-weight:bold;
+							&.createCta, &.updateCta {
+								background:$primary-color; font-size:1.125em;
+							}
+							&.createCta {
+								margin-bottom:20px;
+							}
+						}
+						.fetchedCoachResult {
+							display:inline-block;
+							.resultItem {
+								background:white; padding:5px; border:1px solid $light-grey; display:none;
+								.coachName {
+									font-weight:bold; color:complement($secondary-color);
+									&:after {
+										content:'-'; margin-right:6px;
+										display:inline-block;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		.userAddModal, .decisionModal, .userNotFound{
+			.userAddModalInner, .decisionModalInner, .userNotFoundInner {
+				background:#f5f5f5; text-align:center;
+				.userNotFoundForm{
+					input,button {
+						height:40px; box-sizing:border-box; font-size:1.125em;
+					}
+					button {
+						background:$primary-color; color:white; font-weight:bold; margin-bottom:0;
+						i {
+							margin-left:10px;
+						}
+						&.userNotFoundCancel {
+							background:$hard-grey; margin-right:15px;
+						}
+					}
+				}
+				.newUserForm{
+					input,button, textarea {
+						width:100%; display:block; margin:0 auto 15px auto; height:40px;
+						box-sizing:border-box; font-size:1.125em;
+					}
+					textarea {
+						height:60px; font-family:$body-font; padding:8px; box-sizing:border-box;
+					}
+					button {
+						background:$primary-color; color:white; font-weight:bold; margin-bottom:0;
+						i {
+							margin-left:10px;
+						}
+					}
+					.separator, .newUserHeight, .newUserWeight {
+						display:none;
+					}
+					.newUserGenderMale, .newUserGenderFemale, label {
+						display:inline-block; width:auto; height:auto;
+					}
+					label {
+						margin:0 10px 0 5px;
+					}
+					&.update {
+						.separator, .newUserHeight, .newUserWeight {
+							display:initial;
+						}
+					}
+				}
+				.decisionForm{
+					text-align:center; height:40px; box-sizing:border-box;
+					button {
+						background:$primary-color; color:white; font-weight:bold; margin-bottom:0;
+						font-size:1.125em;
+						i {
+							margin-left:10px; font-size:0.875em;
+						}
+						&.rejectCta {
+							background:$hard-grey; margin-right:15px;
+						}
+					}
+				}
+			}
+		}
+		.mapPop
+		{
+			@extend .modal;
+		}
+		.mapPopInner
+		{
+			width: 100%; height: 100%; background: white;
+		}
+		.mapPopWrap 
+		{
+			position:fixed; z-index:12; height:500px; width:500px; display: none;
+			margin:auto; left:0; right:0; top:0; bottom:0;
+		}
+		.sessGroupsUserList {
+			@extend .dataTable; width:100%;
+			.actionBtn {
+				background:$primary-color; color:white; display:block; margin-bottom:10px;
+			}
+			th,td {
+				white-space:normal;
+			}
+		}
+	}
+}
+
+.emailUsers
+{
+	min-height: 400px;
+	.emailDetailsTop
+	{
+		width: 97%; position: relative; float: left; display: flex; flex-direction: row; margin-bottom: 15px;
+		top: 0px; background: #faf8f8; padding: 16px; height: 400px;
+		.UpdateEmail
+		{
+			position: relative; height: 30px; color: white; background: rgb(212, 67, 67); width: 100px; top: 354px; left: -17.2%;
+		}
+	}
+	.col-md
+	{
+		.emailContainer
+		{
+			top: 32px;
+		}
+	}
+	.fillPop
+	{
+		position: fixed; width: 100%; height: 100vh;
+		top: 0px; left: 0px; background: black; opacity: 0.6;
+	}
+	.bodyTemp
+	{
+		#messageField
+		{
+			height: 57%; width: 100%;
+		}
+		position: relative; width: 58%;
+	}
+	.emailNameTab2
+	{	
+		position: relative; left: 6%; width: 34%;
+		.leftPane
+		{
+			font-size: 16px; top: 8px; position: relative; width: 69px; text-align: left;
+		}
+		tr
+		{
+			position: relative; margin-top: 27px;
+			td
+			{
+				.checkBx1
+				{
+					position: relative; width: 22px; left: -44%;
+				}
+				text-align: center;
+			}
+			input
+			{
+				width: 93%; height: 15px; color: rgb(131, 127, 127); font-size: 13px;
+			}
+		}
+		.emailErr
+		{
+			background: yellow;
+		}
+	}
+	.popForm
+	{
+		position: fixed; height: 70vh; width: 80%; margin: 20px; z-index: 5; background: white; top: 63px; left: 8%; overflow: auto;
+	}
+	.emailUsersTop
+	{
+		justify-content: space-between;
+		.backButton
+		{
+			display: block; background: rgb(212, 67, 67); color: white; padding: 8px; width: 83px; font-size: 13px;
+		}
+	}
+	.emailContainer
+	{
+		top: 40px;
+		.smsNameTab
+		{
+			@extend .dataTable;
+			position: relative; width: 100%; top: 40px;
+			.callRow
+			{
+				.actionForSms
+				{
+					width: 100px; white-space:initial;
+				}
+				td
+				{
+					.smsEdit, .smsSave
+					{
+						width: 100px; background: $hard-grey; color: white;
+					}
+				}
+				#smsBodyInp
+				{
+					width: 95%; height: 33px;
+				}
+				.emailErr
+				{
+					background: rgb(245, 243, 243);
+				}
+				.smsCont, #smsChnlInp
+				{
+					position: relative; height: 78px; width: 98%; border: 1px solid rgb(226, 219, 219);
+					resize: none; color: rgb(85, 85, 100); font-size: 15px; box-sizing:border-box; padding:10px;
+				}
+				textarea:focus
+				{
+					outline:0px !important; -webkit-appearance:none;
+				}
+				.smsName
+				{
+					vertical-align: top;
+				}
+			}
+		}
+	}
+	.emailUsersTabs {
+		display:flex; flex-direction:row;
+		li {
+			a {
+				text-decoration:none; color: $hard-grey; font-weight:bold; padding:10px;
+				&.current
+				{
+					border-bottom:2px solid $primary-color;
+				}
+			}
+		}
+	}
+	.popOver
+	{
+		position: fixed; background: grey; z-index: 5; height: 100vh; width: 100%; top: 0px; opacity: 0.5; left: 0px;
+	}
+	.emPlace
+	{
+		float: right; text-align: center; position: relative; top: 96px; color: rgb(157, 157, 157);
+	}
+	.optionsToSel
+	{
+		float: right; border-bottom: 0px; background: white; border-radius: 4px 4px; z-index: 3;
+		border: thin solid rgb(232, 225, 223); position: relative; border-bottom: 0px; top: 3px; display: none;
+		i
+		{
+			margin : 21px;
+		}
+		.current1
+		{
+			color: $primary-color;
+		}
+	}
+	.emailInfo
+	{
+		td
+		{
+			padding : 20px; padding-left: 36px; padding-right: 36px;
+		}
+		input
+		{
+			width: 100%; height: 31px; color: grey; font-size: 16px;
+		}
+		textarea
+		{
+			width: 100%; height: 237px; width: 100%; /* height: 31px; */ color: grey; font-size: 16px;
+		}
+		.overLay
+		{
+			position: absolute; width: 100%; height: 95%; top: 89px; z-index: 2; background: #edede8; opacity: 0.4; width: 95%; display: none;
+		}
+		.optionsToSel
+		{
+			.hideOverLayWin
+			{
+				position: relative; height: 37px;
+			}	
+		}
+	}
+	.emailContainer	
+	{
+		.emailNameTab
+		{	
+			@extend .dataTable; position: relative; top: 40px; width: 100%;
+			.testIt
+			{
+				position: relative; height: 500px; width: 100%;
+			}
+		}
+		.callRow
+		{
+			margin: 10px;
+			li
+			{
+				display: block; float: left; margin: 20px;
+			}
+			.toggleMyDiv
+			{
+				.moreEmailInfo
+				{
+					color: white; background: $hard-grey;
+					padding:8px 12px; font-size:1.125em;
+					i {
+						margin-right:15px;
+					}
+				}
+			}
+		}
+		.emailHeads
+		{
+			position: relative; width: 100%; table-layout: fixed; top: 86px;
+			.callRow
+			{	
+			}
+			.boxIt
+			{
+				height: 0px;
+			}
+		}
+		.emailHeads
+		{
+			position: relative; width: 100%;
+		}
+	}
+}
+.cardRow {
+	display:flex; flex-direction:row; margin-bottom:15px;
+			&.paymentsMain {
+				.invoiceConfirmation {
+					position:fixed; z-index:11; background:rgba(black,0.5); width:100%; left:0; top:0; height:100%;
+					display:none; flex-direction:row; justify-content:center; align-items:center;
+					.invoiceConfirmationInner {
+						width:320px; padding:20px; background:white; position:relative; box-sizing:border-box; text-align:center;
+						.close {
+							position:absolute; right:20px; top:20px; line-height:1;
+							text-decoration:none; color:$soft-grey; cursor:pointer;
+							&:hover {
+								color:$hard-grey;
+							}
+						}
+						p {
+							font-size:1.25em; margin-bottom:1em;
+							&.message {
+								display:none;
+							}
+						}
+						h3 {
+							line-height:1;
+						}
+						.invoiceConfirmationCode {
+							display:block; width:100%; padding:12px 15px;
+							box-sizing:border-box; margin-bottom:1.5em;
+							font-size:1.125em; text-align:center;
+						}
+						button {
+							border-radius:0; padding:12px; background:$hard-grey; color:white; font-size:1em;
+							&.newuser {
+								background:$primary-color; margin-left:15px;
+							}
+						}
+					}
+				}
+				.paymentsList {
+					@extend .dataTable;
+					width:100%;
+					td, th {
+						.animtext {
+							left:0; bottom:0; position:absolute; color:$primary-color; padding:20px 10px; box-sizing:border-box;
+							display:block; background:white; width:100%; text-align:center;
+						}
+					}
+					.positive {
+						color:#33CC55;
+					}
+					.negative {
+						color:$primary-color;
+					}
+					.label {
+						font-style:italic;
+					}
+					.invoiceCta, .offlinePaymentCta {
+						background:$primary-color; color:white; border-radius:0; font-weight:bold;
+						transition:0.3s ease background-color;
+						&:hover {
+							background:$hard-grey;
+						}
+						&.offlinePaymentCta {
+							background:darken(complement($primary-color),10%);
+						}
+					}
+				}
+			}
+			&.paymentsTop {
+				display:flex; flex-direction:row; justify-content:space-between; align-items:center;
+				.rightHuddle, .leftHuddle {
+					display:flex; flex-direction:row; justify-content: flex-start; align-items:center;
+					.which, .totalCount {
+						font-size:1.25em; font-weight:bold; color:complement($secondary-color);
+						margin:0 8px;
+						.totalCount {
+							margin-right:0;
+						}
+					}
+					.status, .numberNav, .paginationInput, .resultLabel, .pageResultCount, .pageNavCta, .pageCountCta {
+						margin-left:15px;
+					}
+					.resultLabel {
+						margin-left:55px;
+					}
+					.numberNavLink {
+						margin:0 5px; font-weight:bold; color:complement($secondary-color); font-size:1.25em;
+					} 
+					.paginationInput {
+						width: 55px; font-size: 1em; height: 40px; box-sizing: border-box;
+					}
+					.pageResultCount {
+						width: 45px; font-size: 1em; height: 40px; box-sizing: border-box;
+					}
+					.pageNavCta, .pageCountCta {
+						background:$hard-grey; border-radius:0; color:white; height: 40px;
+					}
+				}
+			}
+			&.requestsMain {
+				.stepIn {
+					.stepInAction {
+						.stepInTitle {
+							font-weight:normal;
+						}
+						.userName {
+							color:$secondary-color;
+						}
+						.fromDate, .toDate {
+							display:inline-block; padding:5px; background:$light-grey; margin-bottom:10px;
+						}
+						.fromDate {
+							margin-right:10px;
+						}
+						.toDate {
+							margin-left:10px;
+						}
+						.reason, .status {
+							color:$soft-grey; font-weight:bold; margin:15px; display:inline-block;
+							.reasonText, .coachName {
+								color:$hard-grey; font-weight:normal;
+								&.coachName {
+									color:$secondary-color;
+								}
+							}
+						}
+						.stepInForm {
+							display:block; border-top:1px solid $light-grey; padding-top:15px;
+							.stepInReason {
+								width:100%; box-sizing:border-box; color:$soft-grey; padding:15px;
+								font-family:$body-font; font-size:1.125em; margin:15px 0;
+								&.error {
+									border:2px solid $primary-color;
+								}
+							}
+							.stepInButton {
+								background:$primary-color; font-size:1.125em; padding:10px;
+								border-radius:0; margin:0 10px; color:white;
+								&#stepInDeny {
+									background:$hard-grey;
+								}
+							}
+						}
+					}
+				}
+				.requestsList {
+					@extend .dataTable; width:100%;
+					td, th {
+						&.aggregateComment {
+							max-width:300px;
+							white-space:normal;
+						}
+					}
+					.rescheduleUser {
+						font-weight:bold;
+					}
+					.rescheduleCoach {
+						color:$hard-grey;
+					}
+					.requestStatus, .requestAction {
+						text-align:center;
+					}
+					.requestItemCta {
+						background:$primary-color; color:white; border-radius:0; font-weight:bold;
+					}
+				}
+			}
+			&.requestsTop {
+				justify-content: start;
+				align-items:center;
+				.requestsWhen {
+					position:relative; margin-left:25px;
+					.requestsWhenSelect {
+						font-size:1.25em; overflow:hidden;
+						&:after {
+							content:''; display:table; clear:both; zoom:1;
+						}
+						.whenText, .whenToggle {
+							float:left; display:block; border-radius:0; color:$hard-grey;
+							box-sizing:border-box; height:50px; line-height:1.5;
+						}
+						.whenText {
+							border:1px solid $light-grey;
+							padding:12px; width:215px;
+						}
+						.whenToggle {
+							padding:11px; width:50px;
+						}
+					}
+					.requestDatepicker {
+						position:absolute;right:0; top:49px; width:100%; box-sizing:border-box;
+						background:white; border:1px solid $light-grey; padding:20px; display: none;
+						box-shadow:0px 7px 5px 0px rgba($soft-grey,0.3); z-index:11;
+						input[type="radio"] {
+							padding:5px 0px; border-bottom:1px solid $light-grey;
+						}
+						.requestDivider {
+							border-width:0 0 1px 0;
+							border-color:$light-grey; border-style:solid;
+						}
+						.datePickerInput {
+							margin-top:10px;
+							input {
+								display:block; width:100%; box-sizing:border-box;
+								&.error {
+									border:2px solid $primary-color;
+								}
+							}
+							.inputRangeWrap {
+								position:relative; border:1px solid $light-grey;  padding:10px; margin-top:15px;
+								display:flex; flex-direction:row; justify-content:space-between; align-items:flex-end;
+								.rangeHint {
+									position:absolute; display:block; width:100%; text-align:left;
+									left:27px; top:5px; color:$soft-grey;
+								}
+								.inputRangeSlider {
+									width:70%; display:initial; border:0; padding:0; margin:0;
+								}
+								.inputRangeValue {
+									width:40px; display:initial; padding:0; margin:0; height:40px;
+									box-sizing:border-box; padding:5px;
+								}
+							}
+						}
+						.datePickerSubmit {
+							background:$primary-color; color:white; border-radius:0;
+							margin-top:15px;
+						}
+					}
+				}
+			}
+			.cardTitle {
+				font-size:1.75em;
+				margin-bottom:15px;
+			}
+		}
+
+.userSessions, .userPersonal, .userAccount, .userPayments {
+	flex-direction:column; align-items:center;
+	.mainCTA {
+		color:white; background:$primary-color; font-size:1.125em;
+	}
+	.microCTA {
+		color:$primary-color; background:none; padding:0; font-size:0.875em; text-decoration:underline;
+	}
+	table.sessionsList {
+		margin-bottom:20px; width:100%;
+		td, th {
+			padding:5px; box-sizing:border-box;
+			border:1px solid $light-grey;
+			.microCTA {
+				display:block; margin:auto;
+			}
+			&.listFeedbackCoach, &.listFeedbackUser {
+				max-width:200px;
+			}
+			&.listUserCoach {
+				max-width:115px;
+			}
+		}
+		th {
+			color:#2AA2B7; font-weight:bold; background:white;
+		}
+	}
+}
+.userPayments {
+	align-items:flex-start;
+	.invoiceConfirmation {
+		position:fixed; z-index:11; background:rgba(black,0.5); width:100%; left:0; top:0; height:100%;
+		display:none; flex-direction:row; justify-content:center; align-items:center;
+		.invoiceConfirmationInner {
+			width:320px; padding:20px; background:white; position:relative; box-sizing:border-box; text-align:center;
+			.close {
+				position:absolute; right:20px; top:20px; line-height:1;
+				text-decoration:none; color:$soft-grey; cursor:pointer;
+				&:hover {
+					color:$hard-grey;
+				}
+			}
+			p {
+				font-size:1.25em; margin-bottom:1em;
+				&.message {
+					display:none;
+				}
+			}
+			h3 {
+				line-height:1;
+			}
+			.invoiceConfirmationCode {
+				display:block; width:100%; padding:12px 15px;
+				box-sizing:border-box; margin-bottom:1.5em;
+				font-size:1.125em; text-align:center;
+			}
+			button {
+				border-radius:0; padding:12px; background:$hard-grey; color:white; font-size:1em;
+				&.newuser {
+					background:$primary-color; margin-left:15px;
+				}
+			}
+		}
+	}
+	.offlinePaymentModal {
+		.offlinePaymentForm {
+			input[type="text"], textarea {
+				display:block; margin-bottom:15px; width:100%; padding:10px;
+				box-sizing:border-box; font-family:$body-font;
+			}
+			textarea {
+				font-size:0.9375em;
+			}
+			input[type="radio"], label {
+				margin-bottom:15px;
+			}
+			label {
+				margin-right:15px;
+			}
+			.offlinePaymentSubmit {
+				background:$primary-color; color:white; font-weight:bold; height:40px;
+			}
+			input, button, textarea {
+				box-shadow:0 0 3px 0 rgba($soft-grey,0.5); border-radius:5px; border:0;
+			}
+		}
+	}
+	.actionRow {
+		margin-bottom:25px; align-self:center;
+		font-size:1.125em;
+		.invoiceCta, .offlinePaymentCta {
+			background:$primary-color; color:white; border-radius:5px; font-size:1em; margin:0 15px;
+			box-shadow:0 0 5px 0 rgba($soft-grey,0.4);
+			&.offlinePaymentCta {
+				background:darken(complement($primary-color),10%);
+			}
+		}
+	}
+	.paymentList, .creditList {
+		margin-bottom:25px; width:100%;
+		@extend .dataTable;
+		th {
+			cursor:initial;
+		}
+		&.paymentList {
+			th {
+				background:lighten($soft-grey,10%); color:white;
+				border-right:1px solid lighten($soft-grey,5%);
+			}
+		}
+	}
+	.subtitle {
+		margin-bottom:25px;
+		align-self:center;
+	}
+	.userInvoiceCta {
+		padding:12px; background:$primary-color; color:white; margin-top:20px;
+		border-radius:0; font-size:1.25em; font-weight:bold;
+	}
+}
+.userTop {
+	justify-content: space-between;
+	align-items:center; flex-direction:column;
+	.userTabs {
+		display:flex;
+		li {
+			a {
+				text-decoration:none; color: $hard-grey; font-weight:normal; padding:8px; font-size:0.875em;
+				&.current {
+					border-bottom:2px solid $primary-color;
+				}
+			}
+		}
+	}
+}
+@media screen and (min-width:840px) {
+	.userTop {
+		flex-direction:row;
+		.userTabs {
+			li {
+				a {
+					font-size:1em; font-weight:bold; padding:10px;
+				}
+			}
+		}
+	}
+}
+.card.freeSessions {
+	.freeSessionMap {
+		.inner {
+			background:transparent;
+		}
+		.close {
+			color:white; top:0; right:0;
+		}
+		.freeSessionMapContainer {
+			min-height:400px;
+			border:5px solid white;
+		}
+	}
+	.freeSessionsModal {
+		.infoBlock {
+			margin-bottom:20px;
+			.infoRow {
+				margin:10px 0;
+			}
+			.infoTitle {
+				font-weight:bold; width:100px; display:inline-block;
+				vertical-align:top; width:30%; color:#424F5A;
+			}
+			.infoValue {
+				color:$soft-grey; display:inline-block; vertical-align:top; width:68%;
+			}
+		}
+		.fulfillForm {
+			text-align:center;
+			.fulfillInput, .cta {
+				height:40px; box-sizing:border-box; border-radius:5px; margin-right:15px;
+				box-shadow:0 0 4px 0 rgba($soft-grey,0.3); margin-bottom:15px; border:0;
+			}
+			.fulfillInput {
+				width:250px; text-align:left;
+			}
+			.cta {
+				background:#424F5A; color:white; margin-bottom:0;
+				&.fulfillCta {
+					background:$primary-color;
+				}
+			}
+		}
+	}
+	.freeSessionsList {
+		@extend .dataTable;
+		width:100%;
+		.fulfillRequest {
+			background:$primary-color; color:white; font-weight:bold; border-radius:5px; box-shadow:0 0 5px 0 rgba($soft-grey,0.3);
+		}
+		.mapLink {
+			color:$secondary-color; text-decoration:none;
+		}
+		.venue {
+			max-width:300px; white-space:normal;
+		}
+	}
+	.freeSessionsMain {
+		flex-direction:column;
+	}
+	.freeSessionsWhen {
+		position:relative; margin-left:25px;
+		.freeSessionsWhenSelect {
+			font-size:1.25em; overflow:hidden;
+			border:0; border-radius:5px; box-shadow:0 0 3px 0 rgba($soft-grey,0.3);
+			&:after {
+				content:''; display:table; clear:both; zoom:1;
+			}
+			.whenText, .whenToggle {
+				float:left; display:block; border-radius:0; color:$hard-grey;
+				box-sizing:border-box; height:40px; line-height:1.5;
+			}
+			.whenText {
+				border:0; padding:12px; width:215px;
+			}
+			.whenToggle {
+				padding:11px; width:40px; background:$soft-grey; color:white;
+				i {
+					vertical-align:top;
+				}
+			}
+		}
+		.freeSessionsDatepicker {
+			position:absolute;right:0; top:40px; width:100%; box-sizing:border-box;
+			background:white; border:1px solid $light-grey; padding:20px; display: none;
+			box-shadow:0px 7px 5px 0px rgba($soft-grey,0.3); z-index:11; border-radius:5px;
+			input[type="radio"] {
+				padding:5px 0px; border-bottom:1px solid $light-grey;
+			}
+			.freeSessionsDivider {
+				border-width:0 0 1px 0;
+				border-color:$light-grey; border-style:solid;
+			}
+			.datePickerInput {
+				margin-top:10px;
+				input {
+					display:block; width:100%; box-sizing:border-box;
+					&.error {
+						border:2px solid $primary-color;
+					}
+				}
+				.inputRangeWrap {
+					position:relative; border:1px solid $light-grey;  padding:10px; margin-top:15px;
+					display:flex; flex-direction:row; justify-content:space-between; align-items:flex-end;
+					.rangeHint {
+						position:absolute; display:block; width:100%; text-align:left;
+						left:27px; top:5px; color:$soft-grey;
+					}
+					.inputRangeSlider {
+						width:70%; display:initial; border:0; padding:0; margin:0;
+					}
+					.inputRangeValue {
+						width:40px; display:initial; padding:0; margin:0; height:40px;
+						box-sizing:border-box; padding:5px;
+					}
+				}
+			}
+			.datePickerSubmit {
+				background:$primary-color; color:white; border-radius:0;
+				margin-top:15px;
+			}
+		}
+	}
+}
+.card {
+		background:#FFF; box-shadow: 0px 0px 3px 0px rgba($soft-grey, 0.3); width:100%; overflow-x:auto; overflow-y:hidden;
+		box-sizing:border-box; border-radius:5px; padding:7px; min-height:400px; margin-bottom:20px;
+		
+		&.reports {
+			.reportsTop {
+				justify-content: space-between; align-items:center;
+				.rightHuddle {
+					display:flex; justify-content: flex-start; align-items:center;
+				}
+				.reportsDuration {
+					margin-right:15px; color:darken(complement($secondary-color),10%); text-decoration:none; font-size:1.125em;
+					padding-right:15px; border-right:1px solid darken(complement($secondary-color),10%);
+					&.current {
+						font-weight:bold; color:$hard-grey;
+					}
+					&:last-of-type {
+						padding-right:0; border-right:0;
+					}
+				}
+				.reportsWhen {
+					position:relative;
+					.reportsWhenSelect {
+						font-size:1.25em; overflow:hidden;
+						&:after {
+							content:''; display:table; clear:both; zoom:1;
+						}
+						.whenText, .whenToggle {
+							float:left; display:block; border-radius:0; color:$hard-grey;
+							box-sizing:border-box; height:50px; line-height:1.5;
+						}
+						.whenText {
+							border:1px solid $light-grey;
+							padding:12px; width:215px;
+						}
+						.whenToggle {
+							padding:11px; width:50px;
+						}
+					}
+					.reportsDatepicker {
+						position:absolute;right:0; top:49px; width:100%; box-sizing:border-box;
+						background:white; border:1px solid $light-grey; padding:20px; display: none;
+						box-shadow:0px 7px 5px 0px rgba($soft-grey,0.3); z-index:11;
+						.datePickerInput {
+							margin-top:10px;
+							input {
+								display:block; width:100%; box-sizing:border-box;
+								&.error {
+									border:2px solid $primary-color;
+								}
+							}
+							.inputRangeWrap {
+								position:relative; border:1px solid $light-grey;  padding:10px; margin-top:15px;
+								display:flex; flex-direction:row; justify-content:space-between; align-items:flex-end;
+								.rangeHint {
+									position:absolute; display:block; width:100%; text-align:left;
+									left:27px; top:5px; color:$soft-grey;
+								}
+								.inputRangeSlider {
+									width:70%; display:initial; border:0; padding:0; margin:0;
+								}
+								.inputRangeValue {
+									width:40px; display:initial; padding:0; margin:0; height:40px;
+									box-sizing:border-box; padding:5px;
+								}
+							}
+						}
+						.datePickerSubmit {
+							background:$primary-color; color:white; border-radius:0;
+							margin-top:15px;
+						}
+					}
+				}
+			}
+			.reportsMain {
+				display:block; text-align:center; background:$light-grey;
+				hr.divider {
+					border:3px solid white; border-width:0 0 3px 0; margin-top:0;
+				}
+				.cardBlock {
+					width:20%; display:inline-block; margin:30px 25px;
+					.cardBlockInner {
+						box-shadow:0px 0px 3px 0px rgba($soft-grey,0.3); margin-bottom:0.5em;
+						height:150px; display:flex; flex-direction:column;
+						justify-content:center; align-items:center; background:white;
+					}
+					.mainMetric {
+						font-size:3.5em; display:block; margin-bottom:12px;
+					}
+					.subMetric {
+						font-weight:bold; font-size:1.5em;
+						&.positive, .positive {
+							color:#50D862;
+						}
+						&.negative, .negative {
+							color:$primary-color;
+						}
+					}
+					.blockTitle {
+						box-shadow:0px 0px 3px 0px rgba($soft-grey,0.3); margin-bottom:5px;
+						height:50px; display:flex; flex-direction:column;
+						justify-content:center; align-items:center; background:white;
+					}
+				}
+			}
+		}
+		&.coach {
+			.coachTop {
+				justify-content: space-between;
+				align-items:center;
+				.coachTabs {
+					display:flex; flex-direction:row;
+					li {
+						a {
+							text-decoration:none; color: $hard-grey; font-weight:bold; padding:10px;
+							&.current {
+								border-bottom:2px solid $primary-color;
+							}
+						}
+					}
+				}
+			}
+			.sessionGroupTitle {
+				color:$secondary-color; text-align:center;
+			}
+			.coachDataTable {
+				padding-bottom:40px;
+			}
+		}
+		&.products {
+			.productsMain {
+				.orderActions {
+					.orderActionsInner {
+						h3 {
+							line-height:1;
+						}
+						.orderActionComment {
+							display:block; width:100%; margin-bottom:15px; box-sizing:border-box;
+							font-family:$body-font; font-size:1.125em; padding:15px;
+							&.error {
+								border:2px solid $primary-color;
+							}
+						}
+						button {
+							display:block; margin-top:15px; border-radius:0; font-size:1.25em;
+							width:100%; color:white; font-weight:bold; padding:12px;
+							&.orderActionCancel {
+								background:$hard-grey;
+							}
+							&.orderActionAuthorize {
+								background:complement($secondary-color);
+							}
+							&.orderActionFulfill {
+								background:$primary-color;
+							}
+						}
+					}
+				}
+				table.productsList {
+					@extend .dataTable;
+					margin-bottom:20px; width:100%;
+					.orderCta {
+						background:$primary-color; color:white; font-weight:bold;
+						border-radius:0;
+					}
+				}
+			}
+		}
+		&.users, &.coach {
+			.userDataTable, .coachDataTable, .userSessionTable {
+				margin:auto; min-width: 300px; width:60%;
+				font-size:1em; margin-bottom:20px;
+				td {
+					padding:12px; box-sizing:border-box;
+					border-bottom:1px solid $light-grey;
+					.microCTA {
+						margin-left:10px;
+					}
+					&:first-child {
+						width:40%; font-weight:bold;
+						border-right:0; color:#2AA2B7;
+						&:after {
+							content:":";
+							display:inline-block;
+							margin-left:10px;
+						}
+					}
+					&:last-child {
+						text-align:right;
+						width:60%;
+						border-left:0;
+					}
+				}
+			}
+			.col-md-6 .userSessionTable {
+				display:block; margin:auto; min-width: 300px; width:100%;
+				font-size:1em; margin-top:20px; box-sizing:border-box;
+				td {
+					padding:15px; box-sizing:border-box;
+					border:1px solid $light-grey;
+					&:first-child {
+						width:34.5%;
+						border-right:0;
+					}
+					&:last-child {
+						width:64%;
+						text-align:right;
+						border-left:0;
+					}
+				}
+			}
+			.userSessions, .userInfo, .coachSessions, .coachInfo, .userPerformance {
+				display:none; padding-top:20px;
+				&.current {
+					display:initial;
+				}
+				.groupTitle {
+					text-align:center;
+				}
+			}
+			.userPerformance {
+				.chartControlWidget {
+					display:flex; flex-direction:row; justify-content:space-between; align-items:center;
+					padding:15px; margin-bottom:25px; background:$light-grey;
+					.typeControl {
+						select {
+							height:40px; box-sizing:border-box; padding:10px;
+						}
+					}
+					.dateControl {
+						input, button {
+							height:40px; box-sizing:border-box; padding:10px; margin-left:15px;
+						}
+						span.fieldLabel {
+							margin-left:15px;
+						}
+						button {
+							background:$primary-color; color:white;
+						}
+					}
+				}
+				.chartWrap {
+					position:relative;
+					.summaryDiv {
+						margin:auto; background:lighten(complement($secondary-color),40%); text-align:center;
+						padding:15px; margin-bottom:10px; font-size:1.125em; font-weight:300; box-shadow:inset 0 0 18px 0 rgba(black,0.08);
+						.data {
+							color:$secondary-color;
+							font-weight:bold;
+						}
+					}
+				}
+			}
+			.userSessions {
+				.row {
+					margin-bottom:20px;
+				}
+				.addCta, .rescheduleCta, .cancelCta, .dataCta {
+					background:$primary-color; border-radius:0; color:white; font-size:1.25em; padding:12px 20px;
+					width:auto; margin:20px 20px 20px 0; display:none;
+				}
+				.dataCta {
+					background:#15A59E;
+				}
+				.rescheduleCta {
+					background:$hard-grey;
+				}
+				.existInfo, .addInfo, .doneSession {
+					border:1px solid $light-grey; display:none;
+					padding:20px; box-sizing:border-box; font-size:1.25em;
+				}
+				/*.dataInputWrap {
+					.dataInfo {
+					}
+				}*/
+				.dataAddForm {
+					width:100%; display:block; margin-top:15px;
+					input {
+						display:block; width:100%; box-sizing:border-box;
+						height:40px; text-align:left; padding-left:15px; color:$hard-grey;
+						margin-bottom:15px;
+						&.error {
+							border:2px solid $primary-color;
+						}
+					}
+					.timeTitle {
+						text-align:center; line-height:1; margin-bottom:10px;
+					}
+					.timeHolder {
+						margin-bottom:15px; display:flex; flex-direction:row; justify-content:space-between; align-items:center;
+						input {
+							width:140px; margin-bottom:0;
+						}
+					}
+					.dataSubmit {
+						background:$primary-color; border-radius:0; color:white;
+						width:100%; font-size:1.25em; padding:12px;
+					}
+				}
+				.sessionError {
+					display:none; color:$primary-color; margin:20px 0;
+				}
+				.rescheduleInfo {
+					margin-top:20px;
+					.rescheduleInput {
+						input {
+							padding:10px; width:150px; box-sizing:border-box; margin-right:15px; margin-bottom:15px;
+						}
+						textarea {
+							padding:10px; width:100%; display:block; box-sizing:border-box; font-family:$body-font;
+						}
+						input,textarea {
+							&.error {
+								border:2px solid $primary-color;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		.cardTitle {
+			color:$dark-grey;
+		}
+		.sessions {
+			
+		}
+	}
+.topLogo {
+	height:30px; width:auto;
+	cursor:pointer;
+}
+@media screen and (min-width:540px) {
+	.leftBar {
+		width: 270px;
+		.sideNav {
+			.sideNavItems{
+				.searchWidget {
+					.searchInput {
+						min-width:180px;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media screen and (min-width:768px) {
+	.leftBar {
+		width: 30%;
+	}
+	.main {
+		padding:20px;
+		.card {
+			padding:20px;
+		}
+		.cardRow {
+			.cardTitle {
+				margin-bottom:0;
+				line-height:1;
+			}
+			&.requestsMain {
+				.stepIn {
+					.stepInAction {
+						width:640px;
+					}
+				}
+			}
+		}
+	}
+}
+@media screen and (min-width:992px) {
+	.leftBar {
+		width: 15%;
+	}
+	.main {
+		.topArea {
+		}
+		.results {
+			.resultCategories {
+				flex:none;
+			}
+		}
+	}
+}
+.diet {
+	.dietTop {
+		justify-content:space-between;
+	}
+	.dietTopAction {
+		display:flex; flex-direction:row; justify-content:flex-end; align-items:center;
+		input, button {
+			height:40px; border:0; box-sizing:border-box;
+			box-shadow:0 0 5px 0 rgba($soft-grey,0.5);
+			border-radius:5px; margin-right:15px;
+			&.error {
+				border:2px solid $primary-color;
+			}
+		}
+		button {
+			background:$primary-color; color:white; font-weight:bold;
+			&.fetchPlanCta {
+				background:$hard-grey; margin-right:0;
+			}
+		}
+	}
+	.dietTable {
+		flex-direction:column;
+		.sendPlanEmailCta {
+			width:200px; font-weight: bold; border-radius: 5px; box-shadow: 0px 0px 5px rgba($soft-grey,0.4); margin-bottom: 15px; height: 40px;
+			background:$primary-color; color:white;
+		}
+		.dietsMain {
+			padding: 0 10px; overflow: hidden; margin: 20px -10px;
+		}
+		.dietListItem {
+			list-style-type: none; box-sizing:border-box;
+			display: block; padding: 0; float: left; width:100%; margin-bottom: 20px;
+		}
+		.dietListInner {
+			box-shadow: 0 0 5px 0 rgba(0,0,0,0.2); background: white; padding-bottom: 10px;
+		}
+		.category {
+			text-transform: uppercase; margin:0 15px 10px 15px; font-weight: normal;
+		}
+		.itemOrder {
+			font-size: 2em; font-weight: bold; color:#d44343; margin: 0 15px;
+		}
+		.dietListTitle {
+			display: block; color:white; font-weight: normal; margin-top: 0;
+			text-align: center; line-height: 2;
+		}
+		.content {
+			margin: 10px 15px 15px 15px; color: #666; font-style: italic;
+		}
+		.dietPlan {
+			@extend .dataTable; table-layout:fixed;
+			border-collapse: collapse; display: none; width:100%;
+			td {
+				white-space:normal;
+			}
+		}
+		.dietPlan tr .supplements, .dietPlan tr .firstColumn {
+			width: 15%;
+		}
+		.dietInfo {
+			background: white; box-shadow: 0 0 3px 0 rgba(0,0,0,0.2); padding: 15px; margin-top: 20px;
+		}
+		.infoList {
+			padding-left: 10px;
+		}
+		.infoListItem {
+			margin: 10px 0; list-style-type: none; padding-left: 0;
+		}
+		.infoListItem:before {
+			content: '\2714'; display: inline; margin-right: 10px; color:#22CC56;
+		}
+		.footNoteWrap {
+			display: flex; flex-direction:row; justify-content:space-between; align-items:center;
+		}
+		.headerRow {
+			display: flex; flex-direction:row; justify-content:space-between; align-items:center;
+		}
+	}
+	.dietMain {
+		flex-direction:column; align-items:center;
+		.sectionTitle {
+			color:$secondary-color;
+		}
+		.stepTitle {
+			font-weight:300;
+		}
+		.uploadPlan {
+			input, button {
+				height:40px; border:0; box-shadow:0 0 5px 0 rgba($soft-grey,0.5);
+				border-radius:5px; margin-bottom:25px; font-size:1.125em;
+			}
+			button {
+				background:$primary-color; color:white; font-weight:bold; width:150px;
+			}
+			input {
+				width:100%; padding-left:15px;
+				&.error {
+					border:2px solid $primary-color;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 768px){
+	.diet {
+		.dietTable {
+			.dietListItem {
+				width: 50%; padding: 15px; margin: 0;
+			}
+			.dietsMain {
+				margin: 0; padding: 0;
+			}
+
+		}
+	}
+}
+
+@media screen and (min-width: 992px){
+	.diet {
+		.dietTable {
+			.dietListItem {
+				width: 33.33%;
+			}
+			.dietsMain {
+				display: none;
+			}
+			.dietPlan {
+				display: table;
+			}
+		}
+	}
+}
